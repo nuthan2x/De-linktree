@@ -1,5 +1,7 @@
 Body{
-  background-color: rgb(172, 179, 255);
+  background-color: #b7db8b;
+  font-family: monospace;
+  font-size: large;
 }
 
 
@@ -58,15 +60,145 @@ Body{
 .sendTransaction{
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
 
 }
 
 .sendTransaction div{
   margin: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .sendTransaction button{
   margin-right: 10px;
+}
+
+.switches{
+  display: flex;
+  margin: 0;
+  margin-left: 5.0%;
+}
+
+.selected{
+  padding: 7.5px 20px;
+  border: 2.5px solid rgb(21, 29, 8);
+  background-color: rgb(238, 250, 210);
+  font-weight: bold;
+  font-size: large;
+}
+
+.notSelected{
+  padding: 2px 20.0px;
+  background-color: rgb(243, 243, 243);
+  border: 0.2px solid rgb(102, 102, 102);
+  color: rgb(22, 22, 22);
+  font-weight: bold;
+}
+
+.address{
+  border: 1px solid black;
+  padding: 15.0px 20px;
+  display: flex;
+  background-color: rgb(238, 250, 210);
+  border: 1px solid black;
+  border-radius: 20px;
+  font-size: large;
+}
+
+.address div {
+  margin-left: 15.0px;
+}
+
+.protfolio{
+  width: 380px;
+  padding: 0.5px 20px 15px 35px;
+  background-color: rgb(238, 250, 210);
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.protfolio a{
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.protfolio p{
+  margin: 15px;
+}
+
+.txnContainer{
+  width: 420.80px;
+  padding: 0.5px 20px 15px;
+  background-color: rgb(238, 250, 210);
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 25px;
+}
+
+.txnContainer input {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid rgb(97, 97, 97);
+  border-radius: 7.5px;
+}
+
+.txnContainer textarea {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid rgb(97, 97, 97);
+  border-radius: 7.5px;
+}
+
+.txnButtons button{
+  padding: 10px 20px;
+  border: 1px solid rgb(97, 97, 97);
+  border-radius: 7.5px;
+  margin: 25px 10px;
+  color: rgb(0, 0, 0);
+  font-size: large;
+}
+
+.socials{
+  width: 382.0px;
+  padding: 0.5px 20px 15px 30px;
+  background-color: rgb(238, 250, 210);
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
+.socialMedia div{
+  display: flex;
+  align-items: center;
+
+}
+.socialMedia img{
+  
+  width: 30px;
+}
+
+.socialMedia input{
+  width: 200px;
+  padding: 10px;
+  border: 1px solid rgb(97, 97, 97);
+  border-radius: 7.5px;
+  margin-left: 15px;
+  margin: 15px;
+  
+}
+
+.socialMedia button{
+  
+  padding: 10px 20px;
+  border: 1px solid rgb(97, 97, 97);
+  border-radius: 7.5px;
+  margin: 15px 05px;
+  color: rgb(0, 0, 0);
+  font-size: large;
+  width: 50%;
+  justify-self: center;
 }

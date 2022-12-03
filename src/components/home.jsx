@@ -22,6 +22,8 @@ const Home = () => {
   const [searchAddress, setsearchAddress] = useState(false);
   const [ensAvatar, setensAvatar] = useState(undefined);
   const [ensName, setensName] = useState(undefined);
+  const [MAon, setMAon] = useState(true);
+  const [EOA, setEOAon] = useState(false);
 
   const config = {
     apiKey: "yCsyT__AiAEImRomu0wLm1thqMJkMG8E",
@@ -36,7 +38,7 @@ const Home = () => {
 
   const ensResolve = async () => {
     
-    if (inputAddress.length !== 42) {
+    if (inputAddress?.length !== 42) {
       setsearchAddress(true)
       
       await alchemy.core.resolveName(inputAddress).then(res => {setinputAddress(res); console.log('res: ', res);});
@@ -70,22 +72,51 @@ const Home = () => {
     nfts ? setensName(nfts.ownedNfts?.map((each, i) => {return `${each.title } `})) : setensName([])
   }
 
+  useEffect(() => {
+
+     MAon && 
+     ensResolve(address); 
+    //  setEOAon(false)
+  }, [ MAon]);
+
+  useEffect(() => {
+    
+    setinputAddress(undefined)
+  }, [EOA]);
+
  
 
   return (
     <div className='home'>
-      <div className="search">
-        <input type="text" placeholder={`search with public address / ens`} onChange={(e) => setinputAddress(e.target.value)} value={inputAddress}/>
-        <button onClick={() => ensResolve()}><FaSearch /></button>
+      <div className="switches">
+        <button className= {MAon ? 'selected' : 'notSelected' }
+         onClick={() => {
+          setMAon(true);
+          setEOAon(false);
+         }
+         }>My account
+        </button>
+
+        <button className= {!MAon ? 'selected' : 'notSelected' } 
+         onClick={() => {
+          setMAon(false);
+          setEOAon(true);
+         }
+         }>External account
+        </button>
       </div>
 
-  { ( searchAddress ) ? 
-    <ProfileData inputAddress={inputAddress} ensAvatar={ensAvatar} ensName={ensName}/> :
+      {EOA && <div className="search">
+        <input type="text" placeholder={`search with public address / ens`} onChange={(e) => setinputAddress(e.target.value)} />
+        <button onClick={() => ensResolve()}><FaSearch /></button>
+      </div>}
+
+  { ( EOA ) ? 
+    inputAddress && <ProfileData inputAddress={inputAddress} ensAvatar={ensAvatar} ensName={ensName}/> :
     <MyProfileData ensAvatar={ensAvatar} ensName={ensName}/>
     
   }
-
-       
+  
     </div>
   )
 }
