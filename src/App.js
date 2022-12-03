@@ -28,14 +28,14 @@ import "./App.css";
 
 const { chains, provider } = configureChains(
   [ 
-    // chain.mainnet, 
-    chain.goerli, 
+    chain.mainnet, 
+    // chain.goerli, 
     // chain.sepolia,
     // chain.optimism,
     // chain.optimismGoerli,
     // chain.optimismKovan,
     // chain.polygon,
-    chain.polygonMumbai,
+    // chain.polygonMumbai,
     // chain.arbitrum,
     // chain.arbitrumRinkeby   
    ],
@@ -70,7 +70,7 @@ function App() {
       <RainbowKitProvider chains={chains} modalSize="compact" theme={{
       lightMode: lightTheme(),
       // darkMode: darkTheme(),
-       }} initialChain={chain.polygonMumbai}>
+       }} initialChain={chain.mainnet}>
 
        
           <Header />

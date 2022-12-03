@@ -6,4 +6,42 @@ Body{
 .header{
   display: flex;
   justify-content: flex-end;
+  padding-right: 2.0%;
+  padding-top: 10px;
 }
+
+.search{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.search input{
+  width: 350px;
+  padding: 12px 20px;
+  margin: 8px 15px;
+  box-sizing: border-box;
+  border-radius: 25px;
+}
+
+.search button{
+  padding: 0px 20.0px;
+  border-radius: 20px;
+  margin-left: 7.5px;
+  min-height: 15px;
+  height: 45.0px;
+}
+
+.profileData{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.protfolio{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
