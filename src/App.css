@@ -18,7 +18,7 @@ Body{
 }
 
 .search input{
-  width: 350px;
+  width: 380px;
   padding: 12px 20px;
   margin: 8px 15px;
   box-sizing: border-box;
@@ -45,3 +45,28 @@ Body{
   align-items: flex-start;
 }
 
+.ensAvatar{
+  display: flex;
+}
+
+.ensAvatar img{
+  height: 50px;
+  width: 50px;
+  margin-left: 15px;
+}
+
+.sendTransaction{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+
+}
+
+.sendTransaction div{
+  margin: 5px;
+}
+
+.sendTransaction button{
+  margin-right: 10px;
+}
