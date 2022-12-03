@@ -31,6 +31,7 @@ query ExploreProfiles {
   }
 }
 `
+
 export const challenge = gql`
   query Challenge($address: EthereumAddress!) {
     challenge(request: { address: $address }) {
@@ -39,20 +40,6 @@ export const challenge = gql`
   }
 `
 
-export const authenticate = gql`
-  mutation Authenticate(
-    $address: EthereumAddress!
-    $signature: Signature!
-  ) {
-    authenticate(request: {
-      address: $address,
-      signature: $signature
-    }) {
-      accessToken
-      refreshToken
-    }
-  }
-`
 export const getProfile = gql`
 query Profile($handle: Handle!) {
   profile(request: { handle: $handle }) {
@@ -70,6 +57,22 @@ query Profile($handle: Handle!) {
   }
 }
 `
+
+export const authenticate = gql`
+  mutation Authenticate(
+    $address: EthereumAddress!
+    $signature: Signature!
+  ) {
+    authenticate(request: {
+      address: $address,
+      signature: $signature
+    }) {
+      accessToken
+      refreshToken
+    }
+  }
+`
+
 
 export const getPublications = gql`
   query Publications($id: ProfileId!, $limit: LimitScalar) {
