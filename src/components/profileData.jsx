@@ -6,7 +6,7 @@ import {
   useContract,
   useNetwork,
 } from 'wagmi';
-import { FaCopy } from 'react-icons/fa';
+import { FaCopy, FaStopCircle, FaExternalLinkAlt} from 'react-icons/fa';
 
 const ProfileData = (props) => {
   const { address, isConnecting, isDisconnected } = useAccount()
@@ -51,7 +51,7 @@ const ProfileData = (props) => {
 
   return (
     <div className="profileData">
-          <h5 className='address'>{`Address : ${inputAddress}`} <button onClick={() =>  navigator.clipboard.writeText(inputAddress)}><FaCopy /></button></h5>
+          <h5 className='address'>{`Address : ${inputAddress}`} <div onClick={() =>  navigator.clipboard.writeText(inputAddress)}><FaCopy /></div></h5>
 
       <div className="socials">
         <h4>Socials</h4>
@@ -68,34 +68,35 @@ const ProfileData = (props) => {
 
       <div className='protfolio'>
         <h4>Portfolio & Explorers</h4>
-        <a href={`https://blockscan.com/address/${inputAddress}` }  target="_blank" rel="noopener noreferrer"> <p>Blockscan.com </p></a>
-        <a href={`https://portfolio.nansen.ai/dashboard/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <p>portfolio.nansen </p></a>
-        <a href={`https://debank.com/profile/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <p>debank.com </p></a>
-        <a href={`https://zapper.fi/account/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <p>zapper.fi </p></a>
+        <a href={`https://blockscan.com/address/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <FaStopCircle /><p> Blockscan.com </p><FaExternalLinkAlt size="10.5"/></a>
+        <a href={`https://portfolio.nansen.ai/dashboard/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <FaStopCircle/><p> portfolio.nansen </p><FaExternalLinkAlt size="10.5"/></a>
+        <a href={`https://debank.com/profile/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <FaStopCircle/><p> debank.com </p><FaExternalLinkAlt size="10.5"/></a>
+        <a href={`https://zapper.fi/account/${inputAddress}` } target="_blank" rel="noopener noreferrer"> <FaStopCircle/><p> zapper.fi </p><FaExternalLinkAlt size="10.5"/></a>
       </div >
 
-      <h3>Sign a raw Transaction : </h3>
-      <div className="sendTransaction">
-        {/* <div>
-          <input type="text" placeholder='address '/>
-        </div> */}
-          <label htmlFor="">{`sending to :  ${inputAddress?.slice(0,10)}...${inputAddress?.slice(33,42)}`}</label>
-
-        <div>
-          <label htmlFor="">Amount : &nbsp; </label>
-          <input type="text" placeholder='send in ETH / MATIC'  onChange={(e) => setamount(e.target.value)}/>
-        </div> 
-
-        <div>
-          <label htmlFor="">Message : &nbsp;</label>
-          <textarea  type="text" placeholder='type message...' onChange={(e) => setnewMessage(e.target.value)}  rows="4" cols="50"/>
-        </div>
-
-        <div>
-          <button onClick={sendMessage}>send Transaction</button> 
-          {txnStatus && 
-            <a href={`https://mumbai.polygonscan.com/tx/${txnStatus}`} target="_blank" rel="noopener noreferrer"><button>View Transaction</button></a>     
-          }
+      <div className='txnContainer'>        <h3>Sign a raw Transaction : </h3>
+        <div className="sendTransaction">
+          {/* <div>
+            <input type="text" placeholder='address '/>
+          </div> */}
+            <label htmlFor="">{`send-to : ${inputAddress?.slice(0,10)}...${inputAddress?.slice(33,42)}`}</label>
+        
+          <div>
+            <label htmlFor="">Amount :&nbsp; </label>
+            <input type="text" placeholder='send in ETH / MATIC'  onChange={(e) => setamount(e.target.value)}/>
+          </div> 
+        
+          <div>
+            <label htmlFor="">Message:&nbsp;</label>
+            <textarea  type="text" placeholder='type message...' onChange={(e) => setnewMessage(e.target.value)}  rows="4" cols="50"/>
+          </div>
+        
+          <div>
+            <button onClick={sendMessage}>send Transaction</button> 
+            {txnStatus && 
+              <a href={`https://mumbai.polygonscan.com/tx/${txnStatus}`} target="_blank" rel="noopener noreferrer"><button>View Transaction</button></a>     
+            }
+          </div>
         </div>
       </div>
 

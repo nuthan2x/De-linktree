@@ -69,8 +69,8 @@ function App() {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} modalSize="compact" theme={{
       lightMode: lightTheme(),
-      // darkMode: darkTheme(),
-       }} initialChain={chain.mainnet}>
+      // darkMode: darkTheme(),  initialChain={chain.mainnet}
+       }} >
 
        
           <Header />

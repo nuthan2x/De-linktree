@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@pinata/sdk": "^2.1.0",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import { useProvider } from 'wagmi'
 import {
   useAccount ,
   useSigner,
@@ -10,7 +9,7 @@ import { FaCopy, FaStopCircle, FaExternalLinkAlt} from 'react-icons/fa';
 import { ethers } from 'ethers';
 import axios from 'axios';
 
-const FormData = require('form-data');
+
 
 const MyProfileData = (props) => {
     const { address, isConnecting, isDisconnected } = useAccount()
@@ -22,6 +21,9 @@ const MyProfileData = (props) => {
     const [toAddress, settoAddress] = useState(undefined);
     const [txnStatus, setTxnStatus] = useState(undefined);
     const [amount, setamount] = useState(undefined);
+    const [newIpfsHash, setnewIpfsHash] = useState(undefined);
+    const [getIpfsHash, setgetIpfsHash] = useState(undefined);
+    const [saveStatus, setsaveStatus] = useState(false);
 
     const dlink_add = "0x457F118DB546040a0bB8e4798d17622193b2Ff07";
     const dlink__ABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"hash","type":"string"}],"name":"NewHash","type":"event"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"string","name":"hash","type":"string"}],"name":"storeHash","outputs":[],"stateMutability":"nonpayable","type":"function"}]
@@ -37,6 +39,12 @@ const MyProfileData = (props) => {
     useEffect(() => {
         setfilteredNSnames(ensName?.map(each => `${each } `))
     }, [ensName]);
+
+    useEffect(() => {
+      getDATA()
+     
+    }, [address]);
+
 
     const getHexMessage = (str) => {
         var arr1 = [];
@@ -62,33 +70,84 @@ const MyProfileData = (props) => {
 
     }
 
-    const getDATA = async () => {
-      let eventFilter = Dlink_contract.filters.NewHash()
-      let events = await Dlink_contract.queryFilter(eventFilter)
-      console.log('events: ', events);
+    function hex_to_ascii(str1)
+    {
+      var hex  = str1.toString();
+      var str = '';
+      for (var n = 0; n < hex.length; n += 2) {
+        str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+      }
+      return str;
     }
-    
+
+    const getDATA = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://deep-index.moralis.io/api/v2/0x457F118DB546040a0bB8e4798d17622193b2Ff07/logs',
+        params: {
+          chain: 'mumbai',
+          from_block: '29478720',
+          topic1: `0x000000000000000000000000${address?.slice(2,42)}`
+        },
+        headers: {accept: 'application/json', 'X-API-Key': 'OALLEXDPSYlwQ7u2A67gUCAY0TRLM5yjAVdjwHApeS1bnAlD03keIq9KpJDi8sG7'}
+      };
+      
+      
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log('response.data.total: ', response.data.total);
+          setgetIpfsHash(`https://gateway.pinata.cloud/ipfs/${hex_to_ascii(response.data?.result[0]?.data?.slice(130,258))}`);
+          
+          console.log('getIpfsHash: ', getIpfsHash);
+          fetch(`https://gateway.pinata.cloud/ipfs/${hex_to_ascii(response.data?.result[0]?.data?.slice(130,258))}`)
+          .then((response) => response.json())
+          .then((data) => setsocialData(data));
+        
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+
+    const updateOnContract =async (hash) => {
+      console.log('hash: ', hash);
+        const dlink_add = "0x457F118DB546040a0bB8e4798d17622193b2Ff07";
+        const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/polygon_mumbai')
+        const signerx = new ethers.Wallet(process.env.REACT_APP_PRIVATEKEY, provider);
+        const dlink__ABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"user","type":"address"},{"indexed":false,"internalType":"string","name":"hash","type":"string"}],"name":"NewHash","type":"event"},{"inputs":[{"internalType":"address","name":"user","type":"address"},{"internalType":"string","name":"hash","type":"string"}],"name":"storeHash","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+        const Dlink_contract = new ethers.Contract(dlink_add, dlink__ABI, signerx);
+        
+        const txn = await Dlink_contract.storeHash(address, hash.toString());
+        console.log('txn: ', `https://mumbai.polygonscan.com/tx/${txn.hash}`);
+        const receipt = await txn.wait();
+    }
+
 
     const  postData = async  () => {
-        const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
-    //we gather a local file from the API for this example, but you can gather the file from anywhere
-        let data = JSON.stringify(socialData);
-        return axios.post(url,
-            data,
-            {
-                headers: {
-                    'Content-Type': `multipart/form-data; boundary= ${data._boundary}`,
-                    'pinata_api_key': 'caf6d483c5e33445dd20',
-                    'pinata_secret_api_key': `464c7551da1200d4a4842e95a01bc4f7a66b5d7377a94d7733845ea83a5b49b7`
-                }
-            }
-        ).then(function (response) {
-          console.log('response: ', response);
-            //handle response here
-        }).catch(function (error) {
-          console.log('error: ', error);
-            //handle error here
-        });
+      console.log('socialData: ', socialData);
+      var metadataUploaded = await axios.post("https://api.pinata.cloud/pinning/pinJSONToIPFS", socialData, 
+      {
+        headers:{
+          'pinata_api_key': "282676e08c3d10a5b8b7",
+          'pinata_secret_api_key': "3eecc1f64f87b943d222bc4b749ab752f14422c32f7accf1f92e52d85d8837f5",
+          'path': "metadata.json"
+        }
+      }).then(function (response) {
+        console.log('metadataUploaded fgh: ', metadataUploaded);
+        console.log('metadataUploaded: ', response);
+        setnewIpfsHash(`https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`);
+        setsaveStatus(true)
+        updateOnContract(response.data.IpfsHash)
+        setTimeout(() => {
+          setsaveStatus(false)
+          
+        }, 2000);
+      return response;
+    }).catch(function (error) {
+      console.log(error);
+    });
+    
      };
       
     
@@ -96,7 +155,7 @@ const MyProfileData = (props) => {
 
   return (
     <div className="profileData">
-      <h5 className='address'>{`Address :  ${address}`} <div onClick={() =>  navigator.clipboard.writeText(address)}/><FaCopy /></h5>
+      {address && <h5 className='address'>{`Address :  ${address}`} <div onClick={() =>  navigator.clipboard.writeText(address)}/><FaCopy /></h5>}
 
       <div className="socials">
         {/* {ensName?.length && 
@@ -158,7 +217,7 @@ const MyProfileData = (props) => {
             <a href={socialData.githubHandle} target="_blank" rel="noopener noreferrer"><FaExternalLinkAlt size="10.5"/></a>
           </div>
 
-          <button onClick={postData}>Save</button>
+          <button onClick={postData}>{saveStatus ? 'Saved' : 'Save'}</button>
         </div>
 
       </div>
