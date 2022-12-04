@@ -34,8 +34,8 @@ const { chains, provider } = configureChains(
     // chain.optimism,
     // chain.optimismGoerli,
     // chain.optimismKovan,
-    // chain.polygon,
-    // chain.polygonMumbai,
+    chain.polygon,
+    chain.polygonMumbai,
     // chain.arbitrum,
     // chain.arbitrumRinkeby   
    ],
