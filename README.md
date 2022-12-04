@@ -15,6 +15,8 @@ We used lens protocol to get users data.
 
 ### [Demo Video](https://youtu.be/yPBs6JbWo3g)
 
+### [Demo PPT](https://docs.google.com/presentation/d/1awK73DvMybxfGMk6qdShuEIng-4ZmFMl/edit?usp=sharing&ouid=104478621587242505181&rtpof=true&sd=true)
+
 
 ## To run this Project
 
