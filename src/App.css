@@ -174,7 +174,7 @@ Body{
 .socialMedia div{
   display: flex;
   align-items: center;
-
+  margin-right: 15px;
 }
 .socialMedia img{
   
@@ -201,4 +201,8 @@ Body{
   font-size: large;
   width: 50%;
   justify-self: center;
+}
+
+.socialMedia h3{
+  margin: 15px;
 }
